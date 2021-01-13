@@ -11,10 +11,24 @@
 </head>
 <body>
   <div id="info">
-    <h1>Remove the blocks</h1>
     <div class="container-fluid">
       <div class="row align-items-center">
-        <div class="col-lg-3">
+        <div class="col-lg-2 text-center">
+          <h2>Remove the blocks</h2>
+        </div>
+        <div class="col-lg-8 text-center">
+          <h4>Welcome, <span id="player-name"></span>! Your all time highest score is: <span id="highest-score"></span></h4>
+        </div>
+        <div class="col-lg-2">
+          <a href="/logout"><h4>
+            Log out
+          </h4></a>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-lg-2">
           <button id="start-button" type="button" class="btn btn-primary">Start game</button>
           <button id="new-game-button" type="button" class="btn btn-success">New game</button>
         </div>
@@ -33,7 +47,7 @@
             <li>Orange blocks add 1 second to the timer</li>
             <li>Your goal is to score the most points before the timer runs out</li>
             <li>Press "New game" to reset your score and counter</li>
-            <li>The result table shows only top 10 players</li>
+            <li>The result table shows only top 10 scores</li>
           </ul>
         </div>
       </div>
@@ -48,14 +62,14 @@
         <table class="table table-bordered">
           <thead class="thead-dark">
             <tr>
-              <th>Name</th>
+              <th>Date</th>
               <th>Score</th>
             </tr>
           </thead>
           <tbody id="table-body">
           </tbody>
         </table>
-        <button id="reset-table-button" type="button" class="btn btn-danger">Reset results</button>
+        <button id="reset-table-button" type="button" class="btn btn-danger">Delete user results</button>
       </div>
     </div>
   </div>
@@ -71,13 +85,11 @@
         </div>
         <div class="modal-body">
           <p>Your score: <span id="score-result"></span></p>
-          <div class="form-group">
-            <label for="name-input">Name</label>
-            <input type="text" class="form-control" id="name-input" placeholder="Enter your name" autocomplete="off">
-          </div>
+          <p>Do you want to save your result?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" id="save-button" class="btn btn-primary" data-dismiss="modal">Save</button>
+          <button type="button" id="save-button" class="btn btn-success" data-dismiss="modal">Yes</button>
+          <button type="button" id="cancel-button" class="btn btn-danger" data-dismiss="modal">No</button>
         </div>
       </div>
     </div>
