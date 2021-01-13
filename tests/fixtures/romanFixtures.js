@@ -1,3 +1,5 @@
+const { roman: errors} = require('../../services/tasks/errors')
+
 module.exports = {
   positiveFixtures: [
     {
@@ -57,7 +59,7 @@ module.exports = {
       input: 'IIII',
       expected: {
         errorCode: 400,
-        message: 'Wrong input. Try only Roman numerals or check if input does not have ill-formed or some identical letters in a row.'
+        message: errors.WRONG_ROMAN_NUMERAL
       }
     },
     {
@@ -65,7 +67,7 @@ module.exports = {
       input: 'XXIB',
       expected: {
         errorCode: 400,
-        message: 'Wrong input. Try only Roman numerals or check if input does not have ill-formed or some identical letters in a row.'
+        message: errors.WRONG_ROMAN_NUMERAL
       }
     },
     {
@@ -73,7 +75,7 @@ module.exports = {
       input: 2,
       expected: {
         errorCode: 400,
-        message: 'The input should be a string.'
+        message: errors.WRONG_TYPE
       }
     },
     {
@@ -81,7 +83,7 @@ module.exports = {
       input: [],
       expected: {
         errorCode: 400,
-        message: 'The input should be a string.'
+        message: errors.WRONG_TYPE
       }
     },
     {
@@ -89,7 +91,7 @@ module.exports = {
       input: null,
       expected: {
         errorCode: 400,
-        message: 'The input should be a string.'
+        message: errors.WRONG_TYPE
       }
     },
     {
@@ -97,7 +99,7 @@ module.exports = {
       input: undefined,
       expected: {
         errorCode: 400,
-        message: 'The input should be a string.'
+        message: errors.WRONG_TYPE
       }
     },
     {
@@ -105,7 +107,7 @@ module.exports = {
       input: '',
       expected: {
         errorCode: 400,
-        message: 'The input should not be an empty string.'
+        message: errors.EMPTY_VALUE
       }
     }
   ]

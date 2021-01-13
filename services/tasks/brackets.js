@@ -4,12 +4,7 @@
 // Open brackets must be closed by the same type of brackets.
 // Open brackets must be closed in the correct order.
 
-const errors = {
-  WRONG_TYPE: 'The input should be a string.',
-  EMPTY_VALUE: 'The input should not be an empty string.',
-  WRONG_CHARACTERS: 'The input should only have these characters "(", ")", "{", "}", "[", and "]".',
-  MAX_LENGTH: 'The max input length is 104.'
-}
+const { brackets: errors} = require('./errors')
 
 function validateInput(input) {
   const regexp = /[^\(\)\[\]\{\}]/
@@ -21,7 +16,7 @@ function validateInput(input) {
     throw new Error(errors.WRONG_CHARACTERS)
   }
   if (input === '') {
-    throw new Error(errors.EMPTY_VALUE)
+    throw new Error(errors.EMPTY_STRING)
   }
   if (input.length > 104) {
     throw new Error(errors.MAX_LENGTH)

@@ -1,3 +1,5 @@
+const { palindrome: errors} = require('../../services/tasks/errors')
+
 module.exports = {
   positiveFixtures: [
     {
@@ -42,7 +44,7 @@ module.exports = {
       input: 2 ** 31,
       expected: {
         errorCode: 400,
-        message: 'The input is out of range.'
+        message: errors.MAX_MIN_VALUE
       }
     },
     {
@@ -50,7 +52,7 @@ module.exports = {
       input: (-2) ** 31 - 1,
       expected: {
         errorCode: 400,
-        message: 'The input is out of range.'
+        message: errors.MAX_MIN_VALUE
       }
     },
     {
@@ -58,7 +60,7 @@ module.exports = {
       input: [121],
       expected: {
         errorCode: 400,
-        message: 'The input should be a number.'
+        message: errors.WRONG_INPUT
       }
     },
     {
@@ -66,7 +68,7 @@ module.exports = {
       input: {number: 121},
       expected: {
         errorCode: 400,
-        message: 'The input should be a number.'
+        message: errors.WRONG_INPUT
       }
     },
     {
@@ -74,7 +76,7 @@ module.exports = {
       input: true,
       expected: {
         errorCode: 400,
-        message: 'The input should be a number.'
+        message: errors.WRONG_INPUT
       }
     },
     {
@@ -82,16 +84,24 @@ module.exports = {
       input: '',
       expected: {
         errorCode: 400,
-        message: 'The input should be a number.'
+        message: errors.WRONG_INPUT
       }
     },
-    // {
-    //   name: 'bigInt should throw an error',
-    //   input: 1n,
-    //   expected: {
-    //     errorCode: 400,
-    //     message: 'The input should be a number.'
-    //   }
-    // },
+    {
+      name: 'float should throw an error',
+      input: 123.321,
+      expected: {
+        errorCode: 400,
+        message: errors.WRONG_INPUT
+      }
+    },
+    {
+      name: 'float should throw an error',
+      input: '123.321',
+      expected: {
+        errorCode: 400,
+        message: errors.WRONG_INPUT
+      }
+    }
   ]
 }

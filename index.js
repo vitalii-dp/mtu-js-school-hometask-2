@@ -4,12 +4,13 @@ const fs = require('fs')
 const path = require('path')
 const crasher = require('crasher')
 const PORT = process.env.PORT || 9090
+const TASK_URL = '/api/tasks'
 
-const roman = require('./services/tasks/roman')
-const palindrome = require('./services/tasks/palindrome')
-const brackets = require('./services/tasks/brackets')
-const sortArray = require('./services/tasks/sortArray')
-const nextIndex = require('./services/tasks/nextIndex')
+const romanRoute = require('./routes/roman.route')
+const palindromeRoute = require('./routes/palindrome.route')
+const bracketsRoute = require('./routes/brackets.route')
+const sortArrayRoute = require('./routes/sortArray.route')
+const nextIndexRoute = require('./routes/nextIndex.route')
 
 const results = require('./resultData.json')
 
@@ -37,60 +38,11 @@ app.route('/results')
     res.send(JSON.stringify(results))
   })
 
-app.post('/api/tasks/roman', (req, res) => {
-  const {input} = req.body
-  try {
-    const result = roman(input)
-    const response = {result}
-    res.send(JSON.stringify(response))
-  } catch (error) {
-    res.status(400).send(JSON.stringify(error.message))
-  }
-})
-
-app.post('/api/tasks/palindrome', (req, res) => {
-  const {input} = req.body
-  try {
-    const result = palindrome(input)
-    const response = {result}
-    res.send(JSON.stringify(response))
-  } catch (error) {
-    res.status(400).send(JSON.stringify(error.message))
-  }
-})
-
-app.post('/api/tasks/brackets', (req, res) => {
-  const {input} = req.body
-  try {
-    const result = brackets(input)
-    const response = {result}
-    res.send(JSON.stringify(response))
-  } catch (error) {
-    res.status(400).send(JSON.stringify(error.message))
-  }
-})
-
-app.post('/api/tasks/sortArray', (req, res) => {
-  const { input: {initialArray, comparedArray} } = req.body
-  try {
-    const result = sortArray(initialArray, comparedArray)
-    const response = {result}
-    res.send(JSON.stringify(response))
-  } catch (error) {
-    res.status(400).send(JSON.stringify(error.message))
-  }
-})
-
-app.post('/api/tasks/nextIndex', (req, res) => {
-  const { input: {array, target} } = req.body
-  try {
-    const result = nextIndex(array, target)
-    const response = {result}
-    res.send(JSON.stringify(response))
-  } catch (error) {
-    res.status(400).send(JSON.stringify(error.message))
-  }
-})
+app.use(TASK_URL, romanRoute)
+app.use(TASK_URL, palindromeRoute)
+app.use(TASK_URL, bracketsRoute)
+app.use(TASK_URL, sortArrayRoute)
+app.use(TASK_URL, nextIndexRoute)
 
 app.get('/api/tasks/falsyRoute', crasher)
 

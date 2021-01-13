@@ -1,3 +1,5 @@
+const { sortArray: errors} = require('../../services/tasks/errors')
+
 module.exports = {
   positiveFixtures: [
     {
@@ -7,14 +9,6 @@ module.exports = {
         comparedArray: [2,1,4,3,9,6]
       },
       expected: [2,2,2,1,4,3,3,9,6,7,19]
-    },
-    {
-      name: 'sorting result of arrays [2,3,1,3,2,4,6,7,9,2,19] and [] should be deep equal to [1,2,2,2,3,3,4,6,7,9,19]',
-      input: {
-        initialArray: [2,3,1,3,2,4,6,7,9,2,19],
-        comparedArray: []
-      },
-      expected: [1,2,2,2,3,3,4,6,7,9,19]
     },
     {
       name: 'sorting result of arrays [3,4,5,7,1,9] and [3,4,5,7,1,9] should be deep equal to [3,4,5,7,1,9]',
@@ -34,29 +28,29 @@ module.exports = {
       },
       expected: {
         errorCode: 400,
-        message: 'The input should be an array.'
+        message: errors.WRONG_TYPE
       }
     },
     {
-      name: 'passing not arrays should throw an error',
-      input: {
-        initialArray: 'array',
-        comparedArray: 5
-      },
-      expected: {
-        errorCode: 400,
-        message: 'The input should be an array.'
-      }
-    },
-    {
-      name: 'empty initial array should throw an error',
+      name: 'empty array should throw an error',
       input: {
         initialArray: [],
         comparedArray: [1,2,3]
       },
       expected: {
         errorCode: 400,
-        message: 'The initial array should not be empty.'
+        message: errors.EMPTY_ARRAY
+      }
+    },
+    {
+      name: 'empty array should throw an error',
+      input: {
+        initialArray: [1,1,1,2,3,3],
+        comparedArray: []
+      },
+      expected: {
+        errorCode: 400,
+        message: errors.EMPTY_ARRAY
       }
     },
     {
@@ -67,29 +61,40 @@ module.exports = {
       },
       expected: {
         errorCode: 400,
-        message: 'The arrays should only consist of positive numbers.'
+        message: errors.WRONG_ARRAY_VALUE
       }
     },
     {
-      name: 'arrays with other values than numbers should throw an error',
+      name: 'arrays with float should throw an error',
+      input: {
+        initialArray: [2,3,4.5,5,2,9,1,15],
+        comparedArray: [1,2,3]
+      },
+      expected: {
+        errorCode: 400,
+        message: errors.WRONG_ARRAY_VALUE
+      }
+    },
+    {
+      name: 'arrays with other values than positive integer numbers should throw an error',
       input: {
         initialArray: [NaN,3,4,5,undefined,9,1,15],
         comparedArray: [1,2,3]
       },
       expected: {
         errorCode: 400,
-        message: 'The arrays should only consist of numbers.'
+        message: errors.WRONG_ARRAY_VALUE
       }
     },
     {
       name: 'arrays with length over 1000 should throw an error',
       input: {
         initialArray: Array(1001).fill(2),
-        comparedArray: [2,3,6,1,4]
+        comparedArray: [2]
       },
       expected: {
         errorCode: 400,
-        message: 'The max array length is 1000.'
+        message: errors.MAX_ARRAY_LENGTH
       }
     },
     {
@@ -100,7 +105,7 @@ module.exports = {
       },
       expected: {
         errorCode: 400,
-        message: 'The input should be an array.'
+        message: errors.WRONG_TYPE
       }
     },
     {
@@ -111,7 +116,29 @@ module.exports = {
       },
       expected: {
         errorCode: 400,
-        message: 'The input should be an array.'
+        message: errors.WRONG_TYPE
+      }
+    },
+    {
+      name: 'duplicate values in compared array should throw an error',
+      input: {
+        initialArray: [2,3,3,7,7,7,1,1,5],
+        comparedArray: [1,2,2,3]
+      },
+      expected: {
+        errorCode: 400,
+        message: errors.COMPARED_ARRAY_HAS_DUPLICATES
+      }
+    },
+    {
+      name: 'excess values in compared array should throw an error',
+      input: {
+        initialArray: [2,3,3,7,7,7,1,1,5],
+        comparedArray: [1,2,3,4]
+      },
+      expected: {
+        errorCode: 400,
+        message: errors.COMPARED_ARRAY_EXCESS_VALUE
       }
     },
   ]

@@ -1,17 +1,19 @@
 const got = require('got')
-const BASE_URL = 'http://localhost:9090/api/tasks'
+const client = got.extend({
+	prefixUrl: 'http://localhost:9090/api/tasks',
+  responseType: 'json'
+});
 
 async function postData(url, data) {
-  return await got.post(BASE_URL + url, {
+  return await client.post(url, {
     json: {
-      input: data
+      data
     },
-    responseType: 'json'
   })
 }
 
 async function getData(url) {
-  return await got.get(BASE_URL + url)
+  return await client.get(url)
 }
 
 module.exports = {

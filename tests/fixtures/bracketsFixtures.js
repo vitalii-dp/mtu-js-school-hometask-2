@@ -1,3 +1,5 @@
+const { brackets: errors} = require('../../services/tasks/errors')
+
 module.exports = {
   positiveFixtures: [
     {
@@ -32,7 +34,7 @@ module.exports = {
       input: '',
       expected: {
         errorCode: 400,
-        message: 'The input should not be an empty string.'
+        message: errors.EMPTY_STRING
       }
     },
     {
@@ -40,7 +42,7 @@ module.exports = {
       input: 5,
       expected: {
         errorCode: 400,
-        message: 'The input should be a string.'
+        message: errors.WRONG_TYPE
       }
     },
     {
@@ -48,7 +50,7 @@ module.exports = {
       input: [],
       expected: {
         errorCode: 400,
-        message: 'The input should be a string.'
+        message: errors.WRONG_TYPE
       }
     },
     {
@@ -56,7 +58,7 @@ module.exports = {
       input: {brackets: '()'},
       expected: {
         errorCode: 400,
-        message: 'The input should be a string.'
+        message: errors.WRONG_TYPE
       }
     },
     {
@@ -64,7 +66,7 @@ module.exports = {
       input: null,
       expected: {
         errorCode: 400,
-        message: 'The input should be a string.'
+        message: errors.WRONG_TYPE
       }
     },
     {
@@ -72,7 +74,7 @@ module.exports = {
       input: '!()!',
       expected: {
         errorCode: 400,
-        message: 'The input should only have these characters "(", ")", "{", "}", "[", and "]".'
+        message: errors.WRONG_CHARACTERS
       }
     },
     {
@@ -80,7 +82,7 @@ module.exports = {
       input: '()'.repeat(53),
       expected: {
         errorCode: 400,
-        message: 'The max input length is 104.'
+        message: errors.MAX_LENGTH
       }
     },
   ]
