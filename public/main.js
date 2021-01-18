@@ -1,4 +1,4 @@
-const grid = Array(290);
+const grid = Array(160);
 
 //Select DOM elements
 const gameField = document.getElementById('game-field');
@@ -15,7 +15,7 @@ const highestScoreText = document.getElementById('highest-score')
 
 let isGameOver = true;
 let score = 0;
-let time = 5;
+let time = 60;
 let squares = [];
 let filledSquaresCounter = 0;
 const colorClasses = ['green-square', 'red-square', 'blue-square', 'purple-square', 'orange-square'];
@@ -43,7 +43,7 @@ function fetchUser() {
 
 function fillResultsTable() {
   if (results) {
-    results.forEach(result => tableContent.innerHTML += `<tr><td>${result.name}</td><td>${result.score}</td></tr>`);
+    results.forEach(result => tableContent.innerHTML += `<tr><td>${result.username}</td><td>${result.score}</td></tr>`);
   } else {
     return;
   }
@@ -58,7 +58,7 @@ async function deleteResults() {
   const response = await fetch('/results', {
     method: 'DELETE'
   }).then(res => res.json()).catch(error => console.log(error))
-  response.forEach(result => tableContent.innerHTML += `<tr><td>${result.name}</td><td>${result.score}</td></tr>`);
+  response.forEach(result => tableContent.innerHTML += `<tr><td>${result.username}</td><td>${result.score}</td></tr>`);
 }
 
 //Generate field with blocks
@@ -147,7 +147,7 @@ function resetGame() {
   isGameOver = true;
   score = 0;
   scoreElement.innerText = score;
-  time = 5;
+  time = 60;
   timer.textContent = time;
   startButton.disabled = false;
   clearInterval(gameTimerId);
@@ -171,7 +171,7 @@ async function saveResults() {
   const { topResults, topScore } = await postResults({userInfo, score})
   tableContent.innerHTML = '';
   highestScoreText.textContent = topScore
-  topResults.forEach(result => tableContent.innerHTML += `<tr><td>${result.name}</td><td>${result.score}</td></tr>`);
+  topResults.forEach(result => tableContent.innerHTML += `<tr><td>${result.username}</td><td>${result.score}</td></tr>`);
 }
 
 async function postResults(data) {

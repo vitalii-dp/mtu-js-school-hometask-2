@@ -7,22 +7,23 @@
   <link rel="icon" href="favicon.png">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
   <title>Remove the blocks</title>
 </head>
 <body>
   <div id="info">
     <div class="container-fluid">
       <div class="row align-items-center">
-        <div class="col-lg-2 text-center">
-          <h2>Remove the blocks</h2>
-        </div>
         <div class="col-lg-8 text-center">
-          <h4>Welcome, <span id="player-name"></span>! Your all time highest score is: <span id="highest-score"></span></h4>
+          <h1>Remove the blocks</h1>
         </div>
-        <div class="col-lg-2">
-          <a href="/logout"><h4>
-            Log out
-          </h4></a>
+        <div class="col-lg-4 text-right">
+          <h5>Logged in as: <span id="player-name"></span>
+            <a href="/logout">
+              <i class="fas fa-sign-out-alt"></i>
+            </a></h5>
+            <h5>All time highest score: <span id="highest-score"></span></h5>
         </div>
       </div>
     </div>
@@ -32,13 +33,13 @@
           <button id="start-button" type="button" class="btn btn-primary">Start game</button>
           <button id="new-game-button" type="button" class="btn btn-success">New game</button>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-1">
           <h4>Points: <span id="score">0</span></h4>
         </div>
         <div class="col-lg-2">
           <h4>Time left: <span id="timer">60</span></h4>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-6">
           <ul>
             <li><b>Rules:</b></li>
             <li>Press "Start game" to start the game and counter</li>
@@ -62,14 +63,14 @@
         <table class="table table-bordered">
           <thead class="thead-dark">
             <tr>
-              <th>Date</th>
+              <th>Name</th>
               <th>Score</th>
             </tr>
           </thead>
           <tbody id="table-body">
           </tbody>
         </table>
-        <button id="reset-table-button" type="button" class="btn btn-danger">Delete user results</button>
+        <button id="reset-table-button" type="button" class="btn btn-danger">Delete my results</button>
       </div>
     </div>
   </div>
