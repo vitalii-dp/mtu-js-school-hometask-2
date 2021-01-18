@@ -1,45 +1,63 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const app = express()
 const fs = require('fs')
 const path = require('path')
-const PORT = process.env.PORT || 3000
+const cookieParser = require('cookie-parser')
+const favicon = require('serve-favicon')
+const PORT = process.env.PORT || 9090
 
-const results = require('./resultData.json')
+const loginRoute = require('./routes/login.route')
+const logoutRoute = require('./routes/logout.route')
+const registerRoute = require('./routes/register.route')
+const userInfoRoute = require('./routes/userInfo.route')
+const resultsRoute = require('./routes/results.route')
 
-app.use(express.static(path.join(__dirname, 'public')))
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+const db = mongoose.connection
+db.on('error', (error) => console.log(error))
+db.once('open', () => console.log('Connected to database'))
+
+app.use(cookieParser())
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+app.set('view engine', 'ejs')
+app.use(favicon(path.join(__dirname, 'public', 'favicon.png')))
 
-app.use((req, res, next) => {
-  res.header('Content-Type','application/json');
+app.use(function (req, res, next) {
+  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   next();
 });
 
-app.route('/results')
-  .get((req, res) => {
-    const topResults = sortTopResults(results)
-    res.send(JSON.stringify(topResults))
-  })
-  .post((req, res) => {
-    const updatedResults = [...results, req.body]
-    fs.writeFileSync('./resultData.json', JSON.stringify(updatedResults))
-    const topResults = sortTopResults(updatedResults)
-    res.send(JSON.stringify(topResults))
-  })
-  .delete((req, res) => {
-    fs.writeFileSync('./resultData.json', JSON.stringify([]))
-    res.send(JSON.stringify(results))
-  })
+app.get('/', (req, res, next) => {
+  if (req.cookies.isLoggedIn === 'true') {
+    next()
+  } else {
+    res.redirect('/login')
+  }
+})
+
+app.use(express.static(path.join(__dirname, 'public')))
+
+app.use('/login', loginRoute)
+app.use('/logout', logoutRoute)
+app.use('/register', registerRoute)
+app.use('/userInfo', userInfoRoute)
+app.use('/results', resultsRoute)
 
 app.use((req, res) => {
-  res.header('Content-Type','text/html')
   res.status(404).sendFile(path.join(__dirname, '/public/404.html'))
 })
 
-function sortTopResults(data) {
-  const sortedResults = data.sort((a, b) => b.score - a.score)
-  return sortedResults.slice(0, 10)
-}
+app.use((err, req, res, next) => {
+  next(err)
+  res.status(500).send(JSON.stringify(err))
+})
+
+process.on('uncaughtException', err => {
+  console.log('Uncaught exception:', err.message)
+})
 
 app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`)
+  console.log(`Server is up and running at http://localhost:${PORT}`)
 })
