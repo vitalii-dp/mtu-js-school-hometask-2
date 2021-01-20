@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
@@ -12,6 +13,7 @@ const logoutRoute = require('./routes/logout.route')
 const registerRoute = require('./routes/register.route')
 const userInfoRoute = require('./routes/userInfo.route')
 const resultsRoute = require('./routes/results.route')
+const adminRoute = require('./routes/admin.route')
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
@@ -44,6 +46,7 @@ app.use('/logout', logoutRoute)
 app.use('/register', registerRoute)
 app.use('/userInfo', userInfoRoute)
 app.use('/results', resultsRoute)
+app.use('/admin', adminRoute)
 
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, '/public/404.html'))

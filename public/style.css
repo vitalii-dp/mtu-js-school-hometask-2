@@ -89,3 +89,7 @@ ul {
 hr {
   margin-top:-1em   
 }
+
+.hidden {
+  visibility: hidden;
+}

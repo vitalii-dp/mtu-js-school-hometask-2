@@ -9,7 +9,8 @@ router.get('/', async (req, res) => {
       const currentUser = await User.findOne({login: req.cookies.currentUser})
       const response = {
         topResult: currentUser.topResult,
-        userName: currentUser.name
+        userName: currentUser.name,
+        userRole: currentUser.role
       }
       res.send(JSON.stringify(response))
     } catch (error) {

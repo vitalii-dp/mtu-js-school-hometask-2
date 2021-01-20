@@ -20,6 +20,15 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  gamesCount: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  role: {
+    type: String,
+    default: 'gamer'
+  },
   registrationDate: {
     type: Date,
     default: Date.now,

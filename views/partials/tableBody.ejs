@@ -1,0 +1,11 @@
+  <% locals.users.forEach(user => { %>
+    <tr>
+      <td><%= user._id %></td>
+      <td><%= user.login %></td>
+      <td><%= user.name %></td>
+      <td><%= user.userIp %></td>
+      <td><%= (new Date(user.registrationDate)).toString().slice(0, 24) %></td>
+      <td>Total games: <%= user.gamesCount %> / Top score: <%= user.topResult %></td>
+      <td><%= user.role %> <button id="buttonId">Change role</button> </td>
+    </tr>
+  <% }) %>

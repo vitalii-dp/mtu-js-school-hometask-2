@@ -30,6 +30,9 @@ router.post('/', async (req, res) => {
       })
       currentUser.topResult = req.body.score
     }
+    await currentUser.updateOne({
+      gamesCount: currentUser.gamesCount + 1
+    })
     const results = new Results({
       username: currentUser.name,
       login: req.cookies.currentUser,

@@ -12,6 +12,7 @@ const newGameButton = document.getElementById('new-game-button');
 const resetButton = document.getElementById('reset-table-button');
 const playerNameText = document.getElementById('player-name')
 const highestScoreText = document.getElementById('highest-score')
+const adminButton = document.getElementById('admin-button')
 
 let isGameOver = true;
 let score = 0;
@@ -27,6 +28,9 @@ let userInfo;
 window.addEventListener('load', async () => {
   results = await fetchResults() || []
   userInfo = await fetchUser()
+  if (userInfo.userRole === 'admin') {
+    adminButton.classList.remove('hidden')
+  }
   playerNameText.textContent = userInfo.userName
   highestScoreText.textContent = userInfo.topResult
   fillResultsTable()
