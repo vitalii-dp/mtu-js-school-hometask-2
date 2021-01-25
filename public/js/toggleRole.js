@@ -3,7 +3,7 @@ tableBody.addEventListener('click', async (e) => {
   if (e.target.tagName === 'BUTTON') {
     const userId = e.target.parentNode.parentNode.children[0].firstChild.data
     const response = await fetch('/admin/toggleRole', {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },

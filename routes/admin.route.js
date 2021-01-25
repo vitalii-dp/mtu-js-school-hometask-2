@@ -3,7 +3,6 @@ const router = express.Router()
 const User = require('../models/userModel')
 const checkAuth = require('../controllers/checkAuth')
 
-
 router.use('/', async (req, res, next) => {
   const user = await User.findOne({ login: req.cookies.currentUser })
   if (!checkAuth(req)) {
@@ -22,28 +21,30 @@ router.get('/', (req, res) => {
 
 router.get('/users/:page', async (req, res) => {
   const searchQuery = req.query.search
+  const sortQuery = req.query.sortBy
+  const [ sortBy, sortOrder ] = sortQuery ? sortQuery.split(':') : ['registrationDate', '1']
   const usersPerPage = 10
-  const page = parseInt(req.params.page) || 1
-  const nameQuery = { name: { $regex: searchQuery || '', $options: 'gi' } }
-  const loginQuery = { login: { $regex: searchQuery || '', $options: 'gi' } }
+  const currentPage = parseInt(req.params.page) || 1
+  const nameSearchParams = { name: { $regex: searchQuery || '', $options: 'gi' } }
+  const loginSearchParams = { login: { $regex: searchQuery || '', $options: 'gi' } }
   try {
-    const usersOnPage = await User.find({ $or: [nameQuery, loginQuery] })
-      .skip((usersPerPage * page) - usersPerPage)
-      .limit(usersPerPage)
-    const totalUsers = await User.find({ $or: [nameQuery, loginQuery] })
+    const shownUsers = await User.find({ $or: [nameSearchParams, loginSearchParams] })
+      .skip((usersPerPage * currentPage) - usersPerPage)
+      .limit(usersPerPage).sort({ [sortBy]: sortOrder })
+    const totalUsers = await User.find({ $or: [nameSearchParams, loginSearchParams] })
       .countDocuments()
     const totalPages = Math.ceil(totalUsers / usersPerPage)
-    if (page !== 1 && page > totalPages) {
+    if (currentPage !== 1 && currentPage > totalPages) {
       return res.redirect('/admin/users/1')
     } else {
-      return res.render('adminPage.ejs', { users: usersOnPage, currentPage: page, pages: totalPages, searchQuery })
+      return res.render('adminPage.ejs', { shownUsers, currentPage, totalPages, searchQuery })
     }
   } catch (error) {
-    res.status(503).send('Could not get users list from database at this time. Try again later.')
+    res.status(503).send(`Error: ${error.message}`)
   }
 })
 
-router.post('/toggleRole', async (req, res) => {
+router.patch('/toggleRole', async (req, res) => {
   try {
     const userId = req.body.userId
     const currentUser = await User.findOne({ _id: userId })

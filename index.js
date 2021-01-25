@@ -1,11 +1,10 @@
-require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
-const fs = require('fs')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const favicon = require('serve-favicon')
+const checkAuth = require('./controllers/checkAuth')
 const PORT = process.env.PORT || 9090
 
 const loginRoute = require('./routes/login.route')
@@ -32,7 +31,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res, next) => {
-  if (req.cookies.isLoggedIn === 'true') {
+  if (checkAuth(req)) {
     next()
   } else {
     res.redirect('/login')
