@@ -1,10 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const logoutController = require('../controllers/logout.controller')
 
-router.get('/', (req, res) => {
-  res.clearCookie('isLoggedIn')
-  res.clearCookie('currentUser')
-  res.redirect('/login')
-})
+router.get('/', logoutController)
 
 module.exports = router

@@ -4,15 +4,9 @@ const app = express()
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const favicon = require('serve-favicon')
-const checkAuth = require('./controllers/checkAuth')
+const checkAuth = require('./utils/checkAuth')
 const PORT = process.env.PORT || 9090
-
-const loginRoute = require('./routes/login.route')
-const logoutRoute = require('./routes/logout.route')
-const registerRoute = require('./routes/register.route')
-const userInfoRoute = require('./routes/userInfo.route')
-const resultsRoute = require('./routes/results.route')
-const adminRoute = require('./routes/admin.route')
+const routes = require('./routes/routes')
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
@@ -40,24 +34,28 @@ app.get('/', (req, res, next) => {
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/login', loginRoute)
-app.use('/logout', logoutRoute)
-app.use('/register', registerRoute)
-app.use('/userInfo', userInfoRoute)
-app.use('/results', resultsRoute)
-app.use('/admin', adminRoute)
+// Game routes
+app.use('/login', routes.loginRoute)
+app.use('/logout', routes.logoutRoute)
+app.use('/register', routes.registerRoute)
+app.use('/userInfo', routes.userInfoRoute)
+app.use('/results', routes.resultsRoute)
+app.use('/admin', routes.adminRoute)
+
+// Test routes
+app.use('/api/tasks/roman', routes.romanRoute)
+app.use('/api/tasks/palindrome', routes.palindromeRoute)
+app.use('/api/tasks/brackets', routes.bracketsRoute)
+app.use('/api/tasks/sortArray', routes.sortArrayRoute)
+app.use('/api/tasks/nextIndex', routes.nextIndexRoute)
+app.use('/api/tasks/falsyRoute', routes.falsyRoute)
 
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, '/public/404.html'))
 })
 
 app.use((err, req, res, next) => {
-  next(err)
-  res.status(500).send(JSON.stringify(err))
-})
-
-process.on('uncaughtException', err => {
-  console.log('Uncaught exception:', err.message)
+  res.status(err.statusCode || 500).send(err.message || 'Something went wrong, but it is not your fault. Try again later')
 })
 
 app.listen(PORT, () => {

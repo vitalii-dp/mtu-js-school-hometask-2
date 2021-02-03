@@ -1,6 +1,6 @@
 module.exports = {
   roman: {
-    WRONG_ROMAN_NUMERAL: 'Wrong input. Use only Roman numerals (I, V, X, L, C, D, M) or check if input does not have ill-formed or some identical letters in a row.',
+    WRONG_ROMAN_NUMERAL: 'Wrong input. Use only well-formed Roman numerals (I, V, X, L, C, D, M)',
     WRONG_TYPE: 'The input should be a string.',
     EMPTY_VALUE: 'The input should not be an empty string.'
   },

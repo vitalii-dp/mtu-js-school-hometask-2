@@ -5,21 +5,22 @@
 // Open brackets must be closed in the correct order.
 
 const { brackets: errors} = require('./errors')
+const InputValidationError = require('../../utils/custom_errors/InputValidationError')
 
 function validateInput(input) {
   const regexp = /[^\(\)\[\]\{\}]/
 
   if (typeof input !== 'string') {
-    throw new Error(errors.WRONG_TYPE)
+    throw new InputValidationError(errors.WRONG_TYPE)
   }
   if (input.match(regexp)) {
-    throw new Error(errors.WRONG_CHARACTERS)
+    throw new InputValidationError(errors.WRONG_CHARACTERS)
   }
   if (input === '') {
-    throw new Error(errors.EMPTY_STRING)
+    throw new InputValidationError(errors.EMPTY_STRING)
   }
   if (input.length > 104) {
-    throw new Error(errors.MAX_LENGTH)
+    throw new InputValidationError(errors.MAX_LENGTH)
   }
 }
 

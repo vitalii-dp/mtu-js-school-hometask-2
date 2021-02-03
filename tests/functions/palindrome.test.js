@@ -20,7 +20,7 @@ describe('Negative cases for route api/tasks/palindrome', () => {
         throw new Error('The request should throw an error but it didn\'t.')
       } catch (error) {
         assert.equal(error.response.body, expected.message)
-        assert.equal(error.response.statusCode, 400)
+        assert.equal(error.response.statusCode, expected.errorCode)
       }
     })
   })

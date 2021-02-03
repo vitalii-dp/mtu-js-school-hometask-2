@@ -58,7 +58,7 @@ module.exports = {
       name: 'IIII should throw an error',
       input: 'IIII',
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_ROMAN_NUMERAL
       }
     },
@@ -66,7 +66,7 @@ module.exports = {
       name: 'XXIB should throw an error',
       input: 'XXIB',
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_ROMAN_NUMERAL
       }
     },
@@ -74,7 +74,7 @@ module.exports = {
       name: 'number value should throw an error',
       input: 2,
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_TYPE
       }
     },
@@ -82,31 +82,31 @@ module.exports = {
       name: 'array value should throw an error',
       input: [],
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_TYPE
       }
     },
     {
-      name: 'null value should throw an error',
+      name: 'null value should throw a parse error',
       input: null,
       expected: {
         errorCode: 400,
-        message: errors.WRONG_TYPE
+        message: 'Could not parse input'
       }
     },
     {
-      name: 'undefined value should throw an error',
+      name: 'undefined value should throw a parse error',
       input: undefined,
       expected: {
         errorCode: 400,
-        message: errors.WRONG_TYPE
+        message: 'Could not parse input'
       }
     },
     {
       name: 'empty string should throw an error',
       input: '',
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.EMPTY_VALUE
       }
     }

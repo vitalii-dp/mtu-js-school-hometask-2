@@ -4,28 +4,29 @@
 // Elements that don't appear in arr2 should be placed at the end of arr1 in ascending order.
 
 const { sortArray: errors} = require('./errors')
+const InputValidationError = require('../../utils/custom_errors/InputValidationError')
 
 function validateArrays(initialArray, comparedArray) {
   if (!Array.isArray(initialArray) || !Array.isArray(comparedArray)) {
-    throw new Error (errors.WRONG_TYPE)
+    throw new InputValidationError(errors.WRONG_TYPE)
   }
   if (initialArray.length === 0 || comparedArray.length === 0) {
-    throw new Error(errors.EMPTY_ARRAY)
+    throw new InputValidationError(errors.EMPTY_ARRAY)
   }
   if (comparedArray.length !== new Set(comparedArray).size) {
-    throw new Error(errors.COMPARED_ARRAY_HAS_DUPLICATES)
+    throw new InputValidationError(errors.COMPARED_ARRAY_HAS_DUPLICATES)
   }
   if (initialArray.some(el => typeof el !== 'number' || el < 0 || !Number.isFinite(el) || !Number.isInteger(el))) {
-    throw new Error(errors.WRONG_ARRAY_VALUE)
+    throw new InputValidationError(errors.WRONG_ARRAY_VALUE)
   }
   if (comparedArray.some(el => typeof el !== 'number' || el < 0 || !Number.isFinite(el) || !Number.isInteger(el))) {
-    throw new Error(errors.WRONG_ARRAY_VALUE)
+    throw new InputValidationError(errors.WRONG_ARRAY_VALUE)
   }
   if (comparedArray.some(el => !initialArray.includes(el))) {
-    throw new Error(errors.COMPARED_ARRAY_EXCESS_VALUE)
+    throw new InputValidationError(errors.COMPARED_ARRAY_EXCESS_VALUE)
   }
   if (initialArray.length > 1000 || comparedArray.length > 1000) {
-    throw new Error(errors.MAX_ARRAY_LENGTH)
+    throw new InputValidationError(errors.MAX_ARRAY_LENGTH)
   }
 }
 

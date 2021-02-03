@@ -5,7 +5,7 @@ const resultsSchema = new mongoose.Schema({
       type: String,
       required: true
     },
-    login: {
+    userId: {
       type: String,
       required: true,
     },

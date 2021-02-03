@@ -43,7 +43,7 @@ module.exports = {
       name: '2 ** 31 should throw an error',
       input: 2 ** 31,
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.MAX_MIN_VALUE
       }
     },
@@ -51,7 +51,7 @@ module.exports = {
       name: '((-2) ** 31 - 1) should throw an error',
       input: (-2) ** 31 - 1,
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.MAX_MIN_VALUE
       }
     },
@@ -59,7 +59,7 @@ module.exports = {
       name: 'array value should throw an error',
       input: [121],
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_INPUT
       }
     },
@@ -67,7 +67,7 @@ module.exports = {
       name: 'object value should throw an error',
       input: {number: 121},
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_INPUT
       }
     },
@@ -75,7 +75,7 @@ module.exports = {
       name: 'boolean should throw an error',
       input: true,
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_INPUT
       }
     },
@@ -83,7 +83,7 @@ module.exports = {
       name: 'empty string should throw an error',
       input: '',
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_INPUT
       }
     },
@@ -91,7 +91,7 @@ module.exports = {
       name: 'float should throw an error',
       input: 123.321,
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_INPUT
       }
     },
@@ -99,8 +99,24 @@ module.exports = {
       name: 'float should throw an error',
       input: '123.321',
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_INPUT
+      }
+    },
+    {
+      name: 'undefined should throw a parse error',
+      input: undefined,
+      expected: {
+        errorCode: 400,
+        message: 'Could not parse input'
+      }
+    },
+    {
+      name: 'null should throw a parse error',
+      input: null,
+      expected: {
+        errorCode: 400,
+        message: 'Could not parse input'
       }
     }
   ]

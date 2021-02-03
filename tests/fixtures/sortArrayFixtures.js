@@ -27,7 +27,7 @@ module.exports = {
         comparedArray: 5
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_TYPE
       }
     },
@@ -38,7 +38,7 @@ module.exports = {
         comparedArray: [1,2,3]
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.EMPTY_ARRAY
       }
     },
@@ -49,7 +49,7 @@ module.exports = {
         comparedArray: []
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.EMPTY_ARRAY
       }
     },
@@ -60,7 +60,7 @@ module.exports = {
         comparedArray: [1,2,-3]
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_ARRAY_VALUE
       }
     },
@@ -71,7 +71,7 @@ module.exports = {
         comparedArray: [1,2,3]
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_ARRAY_VALUE
       }
     },
@@ -82,7 +82,7 @@ module.exports = {
         comparedArray: [1,2,3]
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_ARRAY_VALUE
       }
     },
@@ -93,30 +93,30 @@ module.exports = {
         comparedArray: [2]
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.MAX_ARRAY_LENGTH
       }
     },
     {
-      name: 'null values should throw an error',
+      name: 'null values should throw a parse error',
       input: {
         initialArray: null,
         comparedArray: [2,3,6,1]
       },
       expected: {
         errorCode: 400,
-        message: errors.WRONG_TYPE
+        message: 'Could not parse input'
       }
     },
     {
-      name: 'undefined values should throw an error',
+      name: 'undefined values should throw a parse error',
       input: {
         initialArray: [2,3,3,7,7,7,1,1,5],
         comparedArray: undefined
       },
       expected: {
         errorCode: 400,
-        message: errors.WRONG_TYPE
+        message: 'Could not parse input'
       }
     },
     {
@@ -126,7 +126,7 @@ module.exports = {
         comparedArray: [1,2,2,3]
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.COMPARED_ARRAY_HAS_DUPLICATES
       }
     },
@@ -137,7 +137,7 @@ module.exports = {
         comparedArray: [1,2,3,4]
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.COMPARED_ARRAY_EXCESS_VALUE
       }
     },

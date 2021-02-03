@@ -33,7 +33,7 @@ module.exports = {
       name: 'empty string should throw an error',
       input: '',
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.EMPTY_STRING
       }
     },
@@ -41,7 +41,7 @@ module.exports = {
       name: 'not a string value should throw an error',
       input: 5,
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_TYPE
       }
     },
@@ -49,7 +49,7 @@ module.exports = {
       name: 'not a string value should throw an error',
       input: [],
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_TYPE
       }
     },
@@ -57,23 +57,31 @@ module.exports = {
       name: 'not a string value should throw an error',
       input: {brackets: '()'},
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_TYPE
       }
     },
     {
-      name: 'null should throw an error',
+      name: 'null should throw a parse error',
       input: null,
       expected: {
         errorCode: 400,
-        message: errors.WRONG_TYPE
+        message: 'Could not parse input'
+      }
+    },
+    {
+      name: 'undefined should throw a parse error',
+      input: undefined,
+      expected: {
+        errorCode: 400,
+        message: 'Could not parse input'
       }
     },
     {
       name: 'wrong characters should throw an error',
       input: '!()!',
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_CHARACTERS
       }
     },
@@ -81,7 +89,7 @@ module.exports = {
       name: 'wrong characters should throw an error',
       input: '()'.repeat(53),
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.MAX_LENGTH
       }
     },

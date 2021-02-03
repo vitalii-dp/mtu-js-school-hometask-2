@@ -2,17 +2,18 @@
 // Given a roman numeral, convert it to an integer.
 
 const { roman: errors} = require('./errors')
+const InputValidationError = require('../../utils/custom_errors/InputValidationError')
 
 function validateInput(input) {
   const romanRegexp = /^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/i
   if (typeof input !== 'string') {
-    throw new Error(errors.WRONG_TYPE)
+    throw new InputValidationError(errors.WRONG_TYPE)
   }
   if (input === '') {
-    throw new Error(errors.EMPTY_VALUE)
+    throw new InputValidationError(errors.EMPTY_VALUE)
   }
   if (!input.match(romanRegexp)) {
-    throw new Error(errors.WRONG_ROMAN_NUMERAL)
+    throw new InputValidationError(errors.WRONG_ROMAN_NUMERAL)
   }
 }
 

@@ -43,7 +43,7 @@ module.exports = {
         target: 'string'
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_TYPE
       }
     },
@@ -54,7 +54,7 @@ module.exports = {
         target: 5
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_TYPE
       }
     },
@@ -65,7 +65,7 @@ module.exports = {
         target: 5.5
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_TYPE
       }
     },
@@ -76,30 +76,41 @@ module.exports = {
         target: 5
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_ARRAY_VALUE
       }
     },
     {
-      name: 'null values should throw an error',
+      name: 'null values should throw a parse error',
       input: {
         nums: [1,2,3,4,5],
         target: null
       },
       expected: {
         errorCode: 400,
-        message: errors.WRONG_TYPE
+        message: 'Could not parse input'
       }
     },
     {
-      name: 'Infinity should throw an error',
+      name: 'undefined values should throw a parse error',
+      input: {
+        nums: [1,2,3,4,5],
+        target: undefined
+      },
+      expected: {
+        errorCode: 400,
+        message: 'Could not parse input'
+      }
+    },
+    {
+      name: 'Infinity should throw a parse error',
       input: {
         nums: [1,2,3,4,5],
         target: Infinity
       },
       expected: {
         errorCode: 400,
-        message: errors.WRONG_TYPE
+        message: 'Could not parse input'
       }
     },
     {
@@ -109,7 +120,7 @@ module.exports = {
         target: 6
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.UNSORTED_ARRAY
       }
     },
@@ -120,7 +131,7 @@ module.exports = {
         target: 6
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.ARRAY_HAS_DUPLICATE_VALUES
       }
     },
@@ -131,7 +142,7 @@ module.exports = {
         target: 6
       },
       expected: {
-        errorCode: 400,
+        errorCode: 422,
         message: errors.WRONG_ARRAY_VALUE
       }
     },
