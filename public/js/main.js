@@ -1,16 +1,18 @@
-const grid = Array(290);
+const grid = Array(160);
 
 //Select DOM elements
 const gameField = document.getElementById('game-field');
 const scoreElement = document.getElementById('score');
 const timer = document.getElementById('timer');
 const scoreResult = document.getElementById('score-result');
-const nameInput = document.getElementById('name-input');
 const tableContent = document.getElementById('table-body');
 const startButton = document.getElementById('start-button');
 const saveButton = document.getElementById('save-button');
 const newGameButton = document.getElementById('new-game-button');
 const resetButton = document.getElementById('reset-table-button');
+const playerNameText = document.getElementById('player-name')
+const highestScoreText = document.getElementById('highest-score')
+const adminButton = document.getElementById('admin-button')
 
 let isGameOver = true;
 let score = 0;
@@ -21,9 +23,16 @@ const colorClasses = ['green-square', 'red-square', 'blue-square', 'purple-squar
 
 //Fetch and reset results 
 let results;
+let userInfo;
 
 window.addEventListener('load', async () => {
   results = await fetchResults() || []
+  userInfo = await fetchUser()
+  if (userInfo.userRole === 'admin') {
+    adminButton.classList.remove('hidden')
+  }
+  playerNameText.textContent = userInfo.userName
+  highestScoreText.textContent = userInfo.topResult
   fillResultsTable()
 });
 
@@ -32,9 +41,13 @@ function fetchResults() {
   return rawResults
 }
 
+function fetchUser() {
+  return fetch('/userInfo').then(res => res.json()).catch(error => console.log(error))
+}
+
 function fillResultsTable() {
   if (results) {
-    results.forEach(result => tableContent.innerHTML += `<tr><td>${result.name}</td><td>${result.score}</td></tr>`);
+    results.forEach(result => tableContent.innerHTML += `<tr><td>${result.username}</td><td>${result.score}</td></tr>`);
   } else {
     return;
   }
@@ -45,10 +58,11 @@ resetButton.addEventListener('click', () => {
   tableContent.innerHTML = '';
 })
 
-function deleteResults() {
-  fetch('/results', {
+async function deleteResults() {
+  const response = await fetch('/results', {
     method: 'DELETE'
-  }).catch(error => console.log(error))
+  }).then(res => res.json()).catch(error => console.log(error))
+  response.forEach(result => tableContent.innerHTML += `<tr><td>${result.username}</td><td>${result.score}</td></tr>`);
 }
 
 //Generate field with blocks
@@ -134,7 +148,6 @@ function handleTimer() {
 newGameButton.addEventListener('click', resetGame);
 
 function resetGame() {
-  nameInput.value = ''
   isGameOver = true;
   score = 0;
   scoreElement.innerText = score;
@@ -159,10 +172,10 @@ function showModal() {
 saveButton.addEventListener('click', saveResults);
 
 async function saveResults() {
-  const name = nameInput.value || 'Anonymous';
-  const response = await postResults({name, score})
+  const { topResults, topScore } = await postResults({userInfo, score})
   tableContent.innerHTML = '';
-  response.forEach(result => tableContent.innerHTML += `<tr><td>${result.name}</td><td>${result.score}</td></tr>`);
+  highestScoreText.textContent = topScore
+  topResults.forEach(result => tableContent.innerHTML += `<tr><td>${result.username}</td><td>${result.score}</td></tr>`);
 }
 
 async function postResults(data) {

@@ -1,0 +1,82 @@
+<title>Admin page</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</link>
+<div class="container-fluid">
+  <h1 class="text-center">Admin page</h1>
+  <table class="table table-bordered table-hover text-center">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Login</th>
+        <th scope="col">Name</th>
+        <th scope="col">Reg Ip</th>
+        <th scope="col">Reg Date</th>
+        <th scope="col">Game Stats</th>
+        <th scope="col">User Role</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+      <%- include ('./partials/tableBody.ejs') %> 
+    </tbody>
+  </table>
+  <% if (locals.totalPages !== 0) { %>
+    <nav>
+      <ul class="pagination justify-content-center">
+        <% if (locals.currentPage === 1) { %>
+          <li class="page-item disabled"><a class="page-link" href="/admin/users/1<%= searchQuery ? `?search=${searchQuery}` : '' %>">First</a></li>
+          <li class="page-item disabled"><a class="page-link" href="/admin/users/<%= locals.currentPage - 1 %><%= searchQuery ? `?search=${searchQuery}` : '' %>">Previous</a></li>
+          <% } else { %>
+            <li class="page-item"><a class="page-link disabled" href="/admin/users/1<%= searchQuery ? `?search=${searchQuery}` : '' %>">First</a></li>
+            <li class="page-item"><a class="page-link" href="/admin/users/<%= locals.currentPage - 1 %><%= searchQuery ? `?search=${searchQuery}` : '' %>">Previous</a></li>
+        <% } %>
+        <li class="page-item disabled"><a class="page-link">Page <%= locals.currentPage %> of <%= locals.totalPages %>  </a></li>
+        <% if (locals.currentPage === locals.totalPages) { %>
+          <li class="page-item disabled"><a class="page-link" href="/admin/users/<%= locals.currentPage + 1 %><%= searchQuery ? `?search=${searchQuery}` : '' %>">Next</a></li>
+          <li class="page-item disabled"><a class="page-link" href="/admin/users/<%= locals.totalPages %><%= searchQuery ? `?search=${searchQuery}` : '' %>">Last</a></li>
+          <% } else { %>
+            <li class="page-item"><a class="page-link" href="/admin/users/<%= locals.currentPage + 1 %><%= searchQuery ? `?search=${searchQuery}` : '' %>">Next</a></li>
+            <li class="page-item"><a class="page-link" href="/admin/users/<%= locals.totalPages %><%= searchQuery ? `?search=${searchQuery}` : '' %>">Last</a></li>
+        <% } %>
+      </ul>
+    </nav>
+  <% } else { %>
+    <h5 class="text-center">No match. Please, try another search parameters or click search button to display all users.</h5>
+    <hr>
+    <% } %>
+  <form action="/admin/users/1" method="GET" class="form-inline justify-content-center">
+    <div class="form-group mx-sm-3 mb-2">
+      <input type="text" class="form-control" id="search" name="search" placeholder="Search user...">
+      <select class="custom-select" id="sortBy" name="sortBy">
+        <option hidden>Sort options</option>
+        <optgroup label="By name">
+          <option value="name:1">A to Z</option>
+          <option value="name:-1">Z to A</option>
+        </optgroup>
+        <optgroup label="By login">
+          <option value="login:1">A to Z</option>
+          <option value="login:-1">Z to A</option>
+        </optgroup>
+        <optgroup label="By top score">
+          <option value="topResult:1">Lowest to Highest</option>
+          <option value="topResult:-1">Highest to Lowest</option>
+        </optgroup>
+        <optgroup label="By played games">
+          <option value="gamesCount:1">Lowest to Highest</option>
+          <option value="gamesCount:-1">Highest to Lowest</option>
+        </optgroup>
+        <optgroup label="By registration date">
+          <option value="registrationDate:1">Old to New</option>
+          <option value="registrationDate:-1">New to Old</option>
+        </optgroup>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Search</button>
+  </form>
+  <div class="row justify-content-center">
+    <a href="/">Back to the game page</a>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/toggleRole.js"></script>
+<script src="/js/sortTable.js"></script>
